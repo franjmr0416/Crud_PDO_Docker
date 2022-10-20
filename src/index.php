@@ -3,9 +3,11 @@ require 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
-$comando = $con->query("SELECT id, codigo, descripcion, stock FROM productos ORDER BY codigo ASC");
+$activo = 1;
 
-$comando->execute();
+$comando = $con->prepare("SELECT id, codigo, descripcion, stock FROM productos WHERE activo=:mi_activo ORDER BY codigo ASC");
+
+$comando->execute(['mi_activo' => $activo]);
 $resultado = $comando->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
